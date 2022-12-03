@@ -47,11 +47,10 @@ impl iced::Application for TextInputSample {
                 #[cfg(not(any(target_os = "windows", target_os = "macos")))]
                 xdg_session_type: std::env::var("XDG_SESSION_TYPE").unwrap_or("UNKNOWN".to_owned()),
                 #[cfg(not(any(target_os = "windows", target_os = "macos")))]
-                ime_name: std::env::var("GTK_IM_MODULE").unwrap_or_else(
-                    std::env::var("QT_IM_MODULE")
-                        .unwrap_or_else("XMODIFIERS")
-                        .unwrap_or("UNKNOWN".to_owned),
-                ),
+                ime_name: std::env::var("GTK_IM_MODULE")
+                    .or_else(|_| std::env::var("QT_IM_MODULE"))
+                    .or_else(|_| std::env::var("XMODIFIERS"))
+                    .unwrap_or("UNKNOWN".to_owned()),
                 #[cfg(not(any(target_os = "windows", target_os = "macos")))]
                 winit_backend: std::env::var("WINIT_UNIX_BACKEND").unwrap_or("Not Set".to_owned()),
                 password_buffer: String::new(),
