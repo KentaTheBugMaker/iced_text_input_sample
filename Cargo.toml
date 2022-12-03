@@ -1,0 +1,10 @@
+[package]
+name = "iced_text_input_sample"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+iced={git="https://github.com/t18b219k/iced.git",branch="master"}
+iced_native={git="https://github.com/t18b219k/iced.git",branch="master"}

@@ -1,0 +1,94 @@
+name: Build
+on:
+  push:
+    branches:
+      - master
+jobs:
+  iced_text_input_sample_linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: hecrj/setup-rust-action@v1
+    - name: Install cargo-deb
+      run: cargo install cargo-deb
+    - uses: actions/checkout@master
+    - name: Install dependencies
+      run: |
+        export DEBIAN_FRONTED=noninteractive
+        sudo apt-get -qq update
+        sudo apt-get install -y libxkbcommon-dev
+    - name: Build iced_text_input_sample binary
+      run: cargo build --release
+    - name: Archive iced_text_input_sample binary
+      uses: actions/upload-artifact@v1
+      with:
+        name: iced_text_input_sample-x86_64-unknown-linux-gnu
+        path: target/releases/iced_text_input_sample
+    - name: Pack iced_text_input_sample .deb package
+      run: cargo deb --no-build --profile releases --package iced_text_input_sample
+    - name: Rename iced_text_input_sample .deb package
+      run: mv target/debian/*.deb target/debian/iced_iced_text_input_sample-x86_64-debian-linux-gnu.deb
+    - name: Archive iced_text_input_sample .deb package
+      uses: actions/upload-artifact@v1
+      with:
+        name: iced_text_input_sample-x86_64-debian-linux-gnu
+        path: target/debian/iced_iced_text_input_sample-x86_64-debian-linux-gnu.deb
+
+  iced_text_input_sample_windows:
+    runs-on: windows-latest
+    steps:
+    - uses: hecrj/setup-rust-action@v1
+    - uses: actions/checkout@master
+    - name: Enable static CRT linkage
+      run: |
+        mkdir .cargo
+        echo '[target.x86_64-pc-windows-msvc]' >> .cargo/config
+        echo 'rustflags = ["-Ctarget-feature=+crt-static"]' >> .cargo/config
+    - name: Run the application without starting the shell
+      run: |
+        sed -i '1 i\#![windows_subsystem = \"windows\"]' examples/iced_text_input_sample/src/main.rs
+    - name: Build iced_text_input_sample binary
+      run: cargo build --release
+    - name: Archive iced_text_input_sample binary
+      uses: actions/upload-artifact@v1
+      with:
+        name: iced_text_input_sample-x86_64-pc-windows-msvc
+        path: target/release/iced_text_input_sample.exe
+
+  iced_text_input_sample_macos:
+    runs-on: macOS-latest
+    steps:
+    - uses: hecrj/setup-rust-action@v1
+    - uses: actions/checkout@master
+    - name: Build iced_text_input_sample binary
+      env:
+        MACOSX_DEPLOYMENT_TARGET: 10.14
+      run: cargo build --releases 
+    - name: Open binary via double-click
+      run: chmod +x target/releases/iced_text_input_sample
+    - name: Archive iced_text_input_sample binary
+      uses: actions/upload-artifact@v1
+      with:
+        name: iced_text_input_sample-x86_64-apple-darwin
+        path: target/releases/iced_text_input_sample
+
+  iced_text_input_sample_raspberry:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: hecrj/setup-rust-action@v1
+    - uses: actions/checkout@master
+    - name: Install cross
+      run: cargo install cross
+    - name: Build iced_text_input_sample binary for Raspberry Pi 3/4 (64 bits)
+      run: cross build --release --target aarch64-unknown-linux-gnu
+    - name: Archive iced_text_input_sample binary
+      uses: actions/upload-artifact@v1
+      with:
+        name: iced_text_input_sample-aarch64-unknown-linux-gnu
+        path: target/aarch64-unknown-linux-gnu/releases/iced_text_input_sample
+    - name: Build iced_text_input_sample binary for Raspberry Pi 2/3/4 (32 bits)
+      run: cross build --release --target armv7-unknown-linux-gnueabihf
+    - name: Archive iced_text_input_sample binary
+      uses: actions/upload-artifact@v1
+      with:
+        name: iced_text_input_sample-armv7-unknown-linux-gnueabihf
+        path: target/armv7-unknown-linux-gnueabihf/releases/iced_text_input_sample
