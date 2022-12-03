@@ -108,10 +108,10 @@ impl iced::Application for TextInputSample {
         let ime_info = Column::with_children(vec![
             Text::new(format!("Input Method FrameWork {}", self.ime_name)).into(),
             Text::new(format!("Display server {}", self.xdg_session_type)).into(),
-            Text::new(format!("Winit backend {}", self.winit_backend)).into(),
+            Text::new(format!("Winit unix backend {}", self.winit_backend)).into(),
         ]);
         #[cfg(not(any(target_os = "windows", target_os = "macos")))]
-        let content = content.push(ime_info.into());
+        let content = content.push(ime_info);
 
         container(content)
             .height(Length::Shrink)
