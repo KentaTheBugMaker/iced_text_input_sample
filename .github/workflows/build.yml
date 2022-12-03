@@ -22,9 +22,9 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: iced_text_input_sample-x86_64-unknown-linux-gnu
-        path: target/releases/iced_text_input_sample
+        path: target/release/iced_text_input_sample
     - name: Pack iced_text_input_sample .deb package
-      run: cargo deb --no-build --profile releases --package iced_text_input_sample
+      run: cargo deb --no-build --profile release --package iced_text_input_sample
     - name: Rename iced_text_input_sample .deb package
       run: mv target/debian/*.deb target/debian/iced_iced_text_input_sample-x86_64-debian-linux-gnu.deb
     - name: Archive iced_text_input_sample .deb package
@@ -62,14 +62,14 @@ jobs:
     - name: Build iced_text_input_sample binary
       env:
         MACOSX_DEPLOYMENT_TARGET: 10.14
-      run: cargo build --releases 
+      run: cargo build --release 
     - name: Open binary via double-click
-      run: chmod +x target/releases/iced_text_input_sample
+      run: chmod +x target/release/iced_text_input_sample
     - name: Archive iced_text_input_sample binary
       uses: actions/upload-artifact@v1
       with:
         name: iced_text_input_sample-x86_64-apple-darwin
-        path: target/releases/iced_text_input_sample
+        path: target/release/iced_text_input_sample
 
   iced_text_input_sample_raspberry:
     runs-on: ubuntu-latest
@@ -84,11 +84,11 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: iced_text_input_sample-aarch64-unknown-linux-gnu
-        path: target/aarch64-unknown-linux-gnu/releases/iced_text_input_sample
+        path: target/aarch64-unknown-linux-gnu/release/iced_text_input_sample
     - name: Build iced_text_input_sample binary for Raspberry Pi 2/3/4 (32 bits)
       run: cross build --release --target armv7-unknown-linux-gnueabihf
     - name: Archive iced_text_input_sample binary
       uses: actions/upload-artifact@v1
       with:
         name: iced_text_input_sample-armv7-unknown-linux-gnueabihf
-        path: target/armv7-unknown-linux-gnueabihf/releases/iced_text_input_sample
+        path: target/armv7-unknown-linux-gnueabihf/release/iced_text_input_sample
