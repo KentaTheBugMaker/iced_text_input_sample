@@ -1,0 +1,4 @@
+[Desktop Entry]
+Name=TextInputDemo - Iced
+Exec=iced-text-input-sample
+Type=Application

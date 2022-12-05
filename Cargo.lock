@@ -897,7 +897,7 @@ checksum = "dfa686283ad6dd069f105e5ab091b04c62850d3e4cf5d67debad1933f55023df"
 [[package]]
 name = "iced"
 version = "0.5.2"
-source = "git+https://github.com/t18b219k/iced.git?branch=master#b1f178e320d80a06468a5665ee3fb2faecefb4d1"
+source = "git+https://github.com/t18b219k/iced.git?branch=master#3888d65726604d497eabd6ab58ec79a4e15b14c3"
 dependencies = [
  "iced_core",
  "iced_futures",
@@ -911,7 +911,7 @@ dependencies = [
 [[package]]
 name = "iced_core"
 version = "0.6.1"
-source = "git+https://github.com/t18b219k/iced.git?branch=master#b1f178e320d80a06468a5665ee3fb2faecefb4d1"
+source = "git+https://github.com/t18b219k/iced.git?branch=master#3888d65726604d497eabd6ab58ec79a4e15b14c3"
 dependencies = [
  "bitflags",
  "palette",
@@ -921,7 +921,7 @@ dependencies = [
 [[package]]
 name = "iced_futures"
 version = "0.5.1"
-source = "git+https://github.com/t18b219k/iced.git?branch=master#b1f178e320d80a06468a5665ee3fb2faecefb4d1"
+source = "git+https://github.com/t18b219k/iced.git?branch=master#3888d65726604d497eabd6ab58ec79a4e15b14c3"
 dependencies = [
  "futures",
  "log",
@@ -932,7 +932,7 @@ dependencies = [
 [[package]]
 name = "iced_graphics"
 version = "0.4.0"
-source = "git+https://github.com/t18b219k/iced.git?branch=master#b1f178e320d80a06468a5665ee3fb2faecefb4d1"
+source = "git+https://github.com/t18b219k/iced.git?branch=master#3888d65726604d497eabd6ab58ec79a4e15b14c3"
 dependencies = [
  "bitflags",
  "bytemuck",
@@ -947,7 +947,7 @@ dependencies = [
 [[package]]
 name = "iced_native"
 version = "0.6.1"
-source = "git+https://github.com/t18b219k/iced.git?branch=master#b1f178e320d80a06468a5665ee3fb2faecefb4d1"
+source = "git+https://github.com/t18b219k/iced.git?branch=master#3888d65726604d497eabd6ab58ec79a4e15b14c3"
 dependencies = [
  "iced_core",
  "iced_futures",
@@ -960,7 +960,7 @@ dependencies = [
 [[package]]
 name = "iced_style"
 version = "0.5.0"
-source = "git+https://github.com/t18b219k/iced.git?branch=master#b1f178e320d80a06468a5665ee3fb2faecefb4d1"
+source = "git+https://github.com/t18b219k/iced.git?branch=master#3888d65726604d497eabd6ab58ec79a4e15b14c3"
 dependencies = [
  "iced_core",
  "once_cell",
@@ -978,7 +978,7 @@ dependencies = [
 [[package]]
 name = "iced_wgpu"
 version = "0.6.1"
-source = "git+https://github.com/t18b219k/iced.git?branch=master#b1f178e320d80a06468a5665ee3fb2faecefb4d1"
+source = "git+https://github.com/t18b219k/iced.git?branch=master#3888d65726604d497eabd6ab58ec79a4e15b14c3"
 dependencies = [
  "bitflags",
  "bytemuck",
@@ -998,7 +998,7 @@ dependencies = [
 [[package]]
 name = "iced_winit"
 version = "0.5.1"
-source = "git+https://github.com/t18b219k/iced.git?branch=master#b1f178e320d80a06468a5665ee3fb2faecefb4d1"
+source = "git+https://github.com/t18b219k/iced.git?branch=master#3888d65726604d497eabd6ab58ec79a4e15b14c3"
 dependencies = [
  "iced_futures",
  "iced_graphics",
