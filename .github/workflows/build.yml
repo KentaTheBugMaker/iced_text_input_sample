@@ -30,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: sample-linux-x64
-          paths: |
+          path: |
             sample_linux_amd64
             sample_ubuntu_2204_amd64.deb
 
