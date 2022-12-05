@@ -78,7 +78,7 @@ jobs:
           name: sample-macos-x64
           path: sample_macos_x64
   publish_binaries:
-    name: Publish windows binary.
+    name: Publish binaries.
     runs-on: ubuntu-latest
     needs: [build_windows, build_linux, build_macos]
     steps:
