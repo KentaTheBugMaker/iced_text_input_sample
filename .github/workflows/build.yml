@@ -68,9 +68,9 @@ jobs:
       - name: Rename binary
         run: mv target/release/iced_text_input_sample target/release/sample
       - name: pickup binary
-        run: cp target/release/sample sample
+        run: cp target/release/sample sample_macos_x64
       - name: Open binary via double-click
-        run: chmod +x sample
+        run: chmod +x sample_macos_x64
 
       - name: Archive iced_text_input_sample binary
         uses: actions/upload-artifact@v2
