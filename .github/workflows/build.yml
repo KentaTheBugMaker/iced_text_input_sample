@@ -16,7 +16,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
         with:
           tag_name: ${{ github.run_number}}
-          release_name: Build at $${date}
+          release_name: Build at ${{ date}}
           draft: false
           prerelease: false
   iced_text_input_sample_linux:
