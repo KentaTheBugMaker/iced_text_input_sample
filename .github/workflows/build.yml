@@ -9,6 +9,11 @@ jobs:
     steps:
       - name: Checkout the repository
         uses: actions/checkout@master
+      - name: get current time.
+        env:
+          TZ: "Asia/Tokyo" # タイムゾーン指定
+        run: echo "CURRENT_DATETIME=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
+
       - name: Create release page to attach binaries.
         id: create_release
         uses: actions/create-release@v1
@@ -16,7 +21,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
         with:
           tag_name: ${{ github.run_number}}
-          release_name: Build at ${{ date}}
+          release_name: Build at ${{ env.CURRENT_DATETIME}}
           draft: false
           prerelease: false
   iced_text_input_sample_linux:
