@@ -7,66 +7,66 @@ jobs:
   iced_text_input_sample_linux:
     runs-on: ubuntu-latest
     steps:
-    - uses: hecrj/setup-rust-action@v1
-    - name: Install cargo-deb
-      run: cargo install cargo-deb
-    - uses: actions/checkout@master
-    - name: Install dependencies
-      run: |
-        export DEBIAN_FRONTED=noninteractive
-        sudo apt-get -qq update
-        sudo apt-get install -y libxkbcommon-dev
-    - name: Build iced_text_input_sample binary
-      run: cargo build --release
-    - name: Archive iced_text_input_sample binary
-      uses: actions/upload-artifact@v1
-      with:
-        name: iced_text_input_sample-x86_64-unknown-linux-gnu
-        path: target/release/iced_text_input_sample
-    - name: Pack iced_text_input_sample .deb package
-      run: cargo deb --no-build --profile release --package iced_text_input_sample
-    - name: Rename iced_text_input_sample .deb package
-      run: mv target/debian/*.deb target/debian/iced_iced_text_input_sample-x86_64-debian-linux-gnu.deb
-    - name: Archive iced_text_input_sample .deb package
-      uses: actions/upload-artifact@v1
-      with:
-        name: iced_text_input_sample-x86_64-debian-linux-gnu
-        path: target/debian/iced_iced_text_input_sample-x86_64-debian-linux-gnu.deb
+      - uses: hecrj/setup-rust-action@v1
+      - name: Install cargo-deb
+        run: cargo install cargo-deb
+      - uses: actions/checkout@master
+      - name: Install dependencies
+        run: |
+          export DEBIAN_FRONTED=noninteractive
+          sudo apt-get -qq update
+          sudo apt-get install -y libxkbcommon-dev
+      - name: Build iced_text_input_sample binary
+        run: cargo build --release
+      - name: Archive iced_text_input_sample binary
+        uses: actions/upload-artifact@v1
+        with:
+          name: iced_text_input_sample-x86_64-unknown-linux-gnu
+          path: target/release/iced_text_input_sample
+      - name: Pack iced_text_input_sample .deb package
+        run: cargo deb --no-build --profile release --package iced_text_input_sample
+      - name: Rename iced_text_input_sample .deb package
+        run: mv target/debian/*.deb target/debian/iced_iced_text_input_sample-x86_64-debian-linux-gnu.deb
+      - name: Archive iced_text_input_sample .deb package
+        uses: actions/upload-artifact@v1
+        with:
+          name: iced_text_input_sample-x86_64-debian-linux-gnu
+          path: target/debian/iced_iced_text_input_sample-x86_64-debian-linux-gnu.deb
 
   iced_text_input_sample_windows:
     runs-on: windows-latest
     steps:
-    - uses: hecrj/setup-rust-action@v1
-    - uses: actions/checkout@master
-    - name: Enable static CRT linkage
-      run: |
-        mkdir .cargo
-        echo '[target.x86_64-pc-windows-msvc]' >> .cargo/config
-        echo 'rustflags = ["-Ctarget-feature=+crt-static"]' >> .cargo/config
-    - name: Run the application without starting the shell
-      run: |
-        sed -i '1 i\#![windows_subsystem = \"windows\"]' src/main.rs
-    - name: Build iced_text_input_sample binary
-      run: cargo build --release
-    - name: Archive iced_text_input_sample binary
-      uses: actions/upload-artifact@v1
-      with:
-        name: iced_text_input_sample-x86_64-pc-windows-msvc
-        path: target/release/iced_text_input_sample.exe
+      - uses: hecrj/setup-rust-action@v1
+      - uses: actions/checkout@master
+      - name: Enable static CRT linkage
+        run: |
+          mkdir .cargo
+          echo '[target.x86_64-pc-windows-msvc]' >> .cargo/config
+          echo 'rustflags = ["-Ctarget-feature=+crt-static"]' >> .cargo/config
+      - name: Run the application without starting the shell
+        run: |
+          sed -i '1 i\#![windows_subsystem = \"windows\"]' src/main.rs
+      - name: Build iced_text_input_sample binary
+        run: cargo build --release
+      - name: Archive iced_text_input_sample binary
+        uses: actions/upload-artifact@v1
+        with:
+          name: iced_text_input_sample-x86_64-pc-windows-msvc
+          path: target/release/iced_text_input_sample.exe
 
   iced_text_input_sample_macos:
-    runs-on: macOS-latest
+    runs-on: macos-latest
     steps:
-    - uses: hecrj/setup-rust-action@v1
-    - uses: actions/checkout@master
-    - name: Build iced_text_input_sample binary
-      env:
-        MACOSX_DEPLOYMENT_TARGET: 10.14
-      run: cargo build --release 
-    - name: Open binary via double-click
-      run: chmod +x target/release/iced_text_input_sample
-    - name: Archive iced_text_input_sample binary
-      uses: actions/upload-artifact@v1
-      with:
-        name: iced_text_input_sample-x86_64-apple-darwin
-        path: target/release/iced_text_input_sample
+      - uses: hecrj/setup-rust-action@v1
+      - uses: actions/checkout@master
+      - name: Build iced_text_input_sample binary
+        env:
+          MACOSX_DEPLOYMENT_TARGET: 10.14
+        run: cargo build --release
+      - name: Open binary via double-click
+        run: chmod +x target/release/iced_text_input_sample
+      - name: Archive iced_text_input_sample binary
+        uses: actions/upload-artifact@v1
+        with:
+          name: iced_text_input_sample-x86_64-apple-darwin
+          path: target/release/iced_text_input_sample
