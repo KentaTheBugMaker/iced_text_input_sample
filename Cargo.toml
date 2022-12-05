@@ -12,6 +12,6 @@ iced={git="https://github.com/t18b219k/iced.git",branch="master"}
 iced_native={git="https://github.com/t18b219k/iced.git",branch="master"}
 [package.metadata.deb]
 assets = [
-    ["target/release/todos", "usr/bin/iced-text-input-sample", "755"],
+    ["target/release/iced_text_input_sample", "usr/bin/iced-text-input-sample", "755"],
     ["iced-text-input-sample.desktop", "usr/share/applications/", "644"],
 ]
