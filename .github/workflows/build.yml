@@ -4,29 +4,8 @@ on:
     branches:
       - master
 jobs:
-  init_page:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the repository
-        uses: actions/checkout@master
-      - name: get current time.
-        env:
-          TZ: "Asia/Tokyo" # タイムゾーン指定
-        run: echo "CURRENT_DATETIME=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
-
-      - name: Create release page to attach binaries.
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-        with:
-          tag_name: ${{ github.run_number}}
-          release_name: Build at ${{ env.CURRENT_DATETIME}}
-          draft: false
-          prerelease: false
-  iced_text_input_sample_linux:
+  build_linux:
     runs-on: ubuntu-22.04
-    needs: init_page
     steps:
       - uses: hecrj/setup-rust-action@v1
       - name: Install cargo-deb
@@ -47,17 +26,16 @@ jobs:
         run: cp target/debian/sample_ubuntu2204_amd64.deb sample_ubuntu_2204_amd64.deb
       - name: pickup sample for other linux
         run: cp target/release/iced_text_input_sample sample_linux_amd64
-      - name: Upload linux executable
-        uses: skx/github-action-publish-binaries@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Archive iced_text_input_sample binary
+        uses: actions/upload-artifact@v2
         with:
-          releaseId: ${{ needs.init_page.outputs.id }}
-          args: "sample*"
+          name: sample-linux-x64
+          paths: |
+            sample_linux_amd64
+            sample_ubuntu_2204_amd64.deb
 
-  iced_text_input_sample_windows:
+  build_windows:
     runs-on: windows-latest
-    needs: init_page
     steps:
       - uses: hecrj/setup-rust-action@v1
       - uses: actions/checkout@master
@@ -76,11 +54,10 @@ jobs:
       - name: Archive iced_text_input_sample binary
         uses: actions/upload-artifact@v2
         with:
-          name: iced_text_input_sample-windows-x64
+          name: sample-windows-x64
           path: target/release/sample.exe
-  iced_text_input_sample_macos:
+  build_macos:
     runs-on: macos-latest
-    needs: init_page
     steps:
       - uses: hecrj/setup-rust-action@v1
       - uses: actions/checkout@master
@@ -99,13 +76,21 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: sample-macos-x64
-          path: sample
-  publish_binaries_macos:
-    name: Publish binaries.
+          path: sample_macos_x64
+  publish_binaries:
+    name: Publish windows binary.
     runs-on: ubuntu-latest
-    needs: [iced_text_input_sample_macos, init_page]
+    needs: [build_windows, build_linux, build_macos]
     steps:
-      - name: accept binary from macos builder
+      - name: accept binary from windows builder
+        uses: actions/download-artifact@v2
+        with:
+          name: sample-windows-x64
+      - name: accept binary from linux builder
+        uses: actions/download-artifact@v2
+        with:
+          name: sample-linux-x64
+      - name: accept binary from windows builder
         uses: actions/download-artifact@v2
         with:
           name: sample-macos-x64
@@ -114,22 +99,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          releaseId: ${{ needs.init_page.outputs.id }}
           args: "sample*"
-
-  publish_binaries_windows:
-    name: Publish binaries.
-    runs-on: ubuntu-latest
-    needs: [iced_text_input_sample_windows, init_page]
-    steps:
-      - name: accept binary from windows builder
-        uses: actions/download-artifact@v2
-        with:
-          name: sample-windows-x64
-      - name: Upload the artifacts
-        uses: skx/github-action-publish-binaries@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          releaseId: ${{ needs.init_page.outputs.id }}
-          args: "sample.exe"
