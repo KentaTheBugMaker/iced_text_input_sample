@@ -4,8 +4,24 @@ on:
     branches:
       - master
 jobs:
+  init_page:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@master
+      - name: Create release page to attach binaries.
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+        with:
+          tag_name: ${{ github.run_number}}
+          release_name: Build at $${date}
+          draft: false
+          prerelease: false
   iced_text_input_sample_linux:
     runs-on: ubuntu-latest
+    needs: init_page
     steps:
       - uses: hecrj/setup-rust-action@v1
       - name: Install cargo-deb
@@ -34,6 +50,7 @@ jobs:
           path: target/debian/iced_iced_text_input_sample-x86_64-debian-linux-gnu.deb
   iced_text_input_sample_windows:
     runs-on: windows-latest
+    needs: init_page
     steps:
       - uses: hecrj/setup-rust-action@v1
       - uses: actions/checkout@master
@@ -54,6 +71,7 @@ jobs:
           path: target/release/iced_text_input_sample.exe
   iced_text_input_sample_macos:
     runs-on: macos-latest
+    needs: init_page
     steps:
       - uses: hecrj/setup-rust-action@v1
       - uses: actions/checkout@master
@@ -68,8 +86,8 @@ jobs:
         with:
           name: iced_text_input_sample-x86_64-apple-darwin
           path: target/release/iced_text_input_sample
-  generate:
-    name: Create release-artifacts
+  publish_binaries:
+    name: Publish binaries.
     runs-on: ubuntu-latest
     needs:
       [
@@ -78,16 +96,6 @@ jobs:
         iced_text_input_sample_windows,
       ]
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@master
-      - name: Create release page to attach binaries.
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-        with:
-          draft: false
-          prerelease: false
       - name: Upload the artifacts
         uses: skx/github-action-publish-binaries@master
         env:
