@@ -6,23 +6,6 @@ on:
 env:
   CARGO_TERM_COLOR: always
 jobs:
-  init_page:
-    runs-on: ubuntu-latest
-    steps:
-      - id: init_page
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-        with:
-          tag_name: v${{github.run_number}}
-          release: Relese ${{github.sha}}
-          draft: false
-          prerelease: false
-      - run: echo '${{steps.init_page.outputs.upload_url}}' > release_upload_url.txt
-      - uses: actions/upload-artifact@v2
-        with:
-          name: init_page
-          path: release_upload_url.txt
   build_linux:
     runs-on: ubuntu-22.04
     steps:
@@ -83,28 +66,21 @@ jobs:
           MACOSX_DEPLOYMENT_TARGET: 10.14
         run: cargo build --release
       - name: Rename binary
-        run: mv target/release/iced_text_input_sample target/release/sample
+        run: mv target/release/iced_text_input_sample target/release/sample_macos
 
       - name: Open binary via double-click
-        run: chmod +x sample_macos_x64
+        run: chmod +x sample_macos
 
       - name: Archive iced_text_input_sample binary
         uses: actions/upload-artifact@v2
         with:
-          name: sample-macos-x64
-          path: target/release/sample_macos_x64
+          name: sample-macos
+          path: target/release/sample_macos
   publish_binaries:
     name: Publish binaries.
     runs-on: ubuntu-latest
-    needs: [build_windows, build_linux, build_macos, init_page]
+    needs: [build_windows, build_linux, build_macos]
     steps:
-      - name: load upload release_upload_url.txt
-        uses: actions/download-artifact@v3
-        with:
-          name: init_page
-      - id: upload-url
-        run: |
-          echo "::set-output name=url::$(cat init_page/release_upload_url.txt)"
       - name: accept binary from windows builder
         uses: actions/download-artifact@v3
         with:
@@ -116,7 +92,7 @@ jobs:
       - name: accept binary from windows builder
         uses: actions/download-artifact@v3
         with:
-          name: sample-macos-x64
+          name: sample-macos
       - id: release_binary
         uses: softprops/action-gh-release@v1
         with:
@@ -127,7 +103,7 @@ jobs:
           generate_release_note: true
           append_body: true
           files: |
-            sample_macos_x64
+            sample_macos
             sample.exe
             sample_ubuntu_2204_amd64.deb 
             sample_linux_amd64
