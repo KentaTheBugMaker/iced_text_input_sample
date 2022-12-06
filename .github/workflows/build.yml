@@ -30,9 +30,12 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: sample-linux-x64
-          path: |
-            target/release/sample_linux_amd64
-            target/deb/sample_ubuntu_2204_amd64.deb
+          path: target/release/sample_linux_amd64
+      - name: Archive .deb binary
+        uses: actions/upload-artifact@v3
+        with:
+          name: sample-ubuntu2204-x64
+          path: target/deb/sample_ubuntu_2204_amd64.deb
 
   build_windows:
     runs-on: windows-latest
@@ -100,6 +103,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: sample-linux-x64
+      - name: accept binary from linux builder .deb archive
+        uses: actions/download-artifact@v3
+        with:
+          name: sample-ubuntu2204-x64
       - name: accept binary from windows builder
         uses: actions/download-artifact@v3
         with:
@@ -118,7 +125,7 @@ jobs:
           files: |
             sample_macos
             sample.exe
-            sample-linux-x64/sample_ubuntu_2204_amd64.deb 
-            sample-linux-x64/sample_linux_amd64
+            sample_ubuntu_2204_amd64.deb 
+            sample_linux_amd64
       - name: print uploaded files
         run: echo '${{steps.release_binary.outputs.asset}}'
