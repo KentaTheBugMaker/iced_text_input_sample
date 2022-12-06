@@ -1,9 +1,28 @@
 name: Build and Make release
 on:
   push:
-    branches:
-      - master
+    tags:
+      - "v*"
+env:
+  CARGO_TERM_COLOR: always
 jobs:
+  init_page:
+    runs-on: ubuntu-latest
+    steps:
+      - id: init_page
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+        with:
+          tag_name: ${{github.ref}}
+          release: Relese ${{github.ref}}
+          draft: false
+          prerelease: false
+      - run: echo '${{steps.init_page.outputs.upload_url}}' > release_upload_url.txt
+      - uses: actions/upload-artifact@v2
+        with:
+          name: init_page
+          path: release_upload_url.txt
   build_linux:
     runs-on: ubuntu-22.04
     steps:
@@ -22,17 +41,15 @@ jobs:
         run: cargo deb --no-build --profile release --package iced_text_input_sample
       - name: prepare for pickup package
         run: mv target/debian/*.deb target/debian/sample_ubuntu2204_amd64.deb
-      - name: pickup .deb package
-        run: cp target/debian/sample_ubuntu2204_amd64.deb sample_ubuntu_2204_amd64.deb
-      - name: pickup sample for other linux
-        run: cp target/release/iced_text_input_sample sample_linux_amd64
+      - name: prepare for pickup package
+        run: mv target/release/iced_text_input_sample target/release/sample_linux_amd64
       - name: Archive iced_text_input_sample binary
         uses: actions/upload-artifact@v2
         with:
           name: sample-linux-x64
           path: |
-            sample_linux_amd64
-            sample_ubuntu_2204_amd64.deb
+            target/release/sample_linux_amd64
+            target/deb/sample_ubuntu_2204_amd64.deb
 
   build_windows:
     runs-on: windows-latest
@@ -82,6 +99,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build_windows, build_linux, build_macos]
     steps:
+      - name: load upload release_upload_url.txt
+        uses: actions/donwload-artifact@v2
+        with:
+          name: init_page
+      - id: upload-url
+        run: |
+          echo "::set-output name=url::$(cat init_page/release_upload_url.txt)"
       - name: accept binary from windows builder
         uses: actions/download-artifact@v2
         with:
@@ -94,9 +118,39 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: sample-macos-x64
-      - name: Upload the artifacts
-        uses: skx/github-action-publish-binaries@master
+      - name: Release windows artifacts
+        uses: actions/upload-release-artifact@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
-          args: "sample*"
+          upload_url: ${{steps.upload-url.outputs.url}}
+          asset_path: ./sample-windows-x64/sample.exe
+          asset_name: sample_windows_x64.exe
+          asset_content_type: application/octet-stream
+      - name: Release macos artifacts
+        uses: actions/upload-release-artifact@v1
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          upload_url: ${{steps.upload-url.outputs.url}}
+          asset_path: ./sample-macos-x64/sample_macos_x64
+          asset_name: sample_macos_x64
+          asset_content_type: application/octet-stream
+      - name: Release linux artifacts
+        uses: actions/upload-release-artifact@v1
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          upload_url: ${{steps.upload-url.outputs.url}}
+          asset_path: ./sample-linux-x64/sample_linux_amd64
+          asset_name: sample_linux_amd64
+          asset_content_type: application/octet-stream
+      - name: Release .deb artifacts
+        uses: actions/upload-release-artifact@v1
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          upload_url: ${{steps.upload-url.outputs.url}}
+          asset_path: ./sample-linux-x64/sample_ubuntu_2204_amd64.deb
+          asset_name: sample_ubuntu_2204_amd64.deb
+          asset_content_type: application/octet-stream
