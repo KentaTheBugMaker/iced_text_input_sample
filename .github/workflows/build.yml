@@ -100,7 +100,7 @@ jobs:
     needs: [build_windows, build_linux, build_macos, init_page]
     steps:
       - name: load upload release_upload_url.txt
-        uses: actions/donwload-artifact@v2
+        uses: actions/download-artifact@v2
         with:
           name: init_page
       - id: upload-url
