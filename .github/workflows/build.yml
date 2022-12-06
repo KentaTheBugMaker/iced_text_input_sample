@@ -104,6 +104,8 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: sample-macos
+      - name: list files
+        run: ls -l
       - id: release_binary
         uses: softprops/action-gh-release@v1
         with:
