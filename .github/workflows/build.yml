@@ -27,7 +27,7 @@ jobs:
       - name: prepare for pickup package
         run: mv target/release/iced_text_input_sample target/release/sample_linux_amd64
       - name: Archive iced_text_input_sample binary
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: sample-linux-x64
           path: |
@@ -52,7 +52,7 @@ jobs:
       - name: Rename iced_text_input_sample
         run: ren target/release/iced_text_input_sample.exe sample.exe
       - name: Archive iced_text_input_sample binary
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: sample-windows-x64
           path: target/release/sample.exe
@@ -70,7 +70,7 @@ jobs:
       - name: Open binary via double-click
         run: chmod +x target/release/sample_macos
       - name: Archive iced_text_input_sample binary
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: sample-macos
           path: target/release/sample_macos
@@ -79,6 +79,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build_windows, build_linux, build_macos]
     steps:
+      - name: checkout
+        uses: actions/checkout@master
       - name: extract hash from Cargo.lock
         run: grep "branch=master\?#[a-f0-9]*" Cargo.lock > iced_hash.txt
       - name: upload iced hash
