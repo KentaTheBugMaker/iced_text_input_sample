@@ -67,10 +67,8 @@ jobs:
         run: cargo build --release
       - name: Rename binary
         run: mv target/release/iced_text_input_sample target/release/sample_macos
-
       - name: Open binary via double-click
-        run: chmod +x sample_macos
-
+        run: chmod +x target/release/sample_macos
       - name: Archive iced_text_input_sample binary
         uses: actions/upload-artifact@v2
         with:
@@ -81,6 +79,21 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build_windows, build_linux, build_macos]
     steps:
+      - name: extract hash from Cargo.lock
+        run: grep "branch=master\?#[a-f0-9]*" Cargo.lock > iced_hash.txt
+      - name: upload iced hash
+        uses: actions/upload-artifact@v2
+        with:
+          name: iced_hash.txt
+          path: iced_hash.txt
+      - name: reduce to one line
+        run: sed '1!d' iced_hash.txt > tmp0.txt
+      - name: remove non hash characters
+        run: sed 's/branch=master?#//g' > tmp1.txt
+      - name: print hash
+        run: cat tmp1.txt
+      - name: set hash
+        run: echo "hash=$(cat tmp1.txt)" >> $GITHUB_ENV
       - name: accept binary from windows builder
         uses: actions/download-artifact@v3
         with:
@@ -96,7 +109,7 @@ jobs:
       - id: release_binary
         uses: softprops/action-gh-release@v1
         with:
-          name: Build ${{github.sha}}
+          name: Build with commit ${{env.hash}}
           tag_name: v${{github.run_number}}
           draft: false
           body: sample release
