@@ -113,7 +113,7 @@ jobs:
           tag_name: v${{github.run_number}}
           draft: false
           body: sample release
-          generate_release_note: true
+          generate_release_notes: true
           append_body: true
           files: |
             sample_macos
