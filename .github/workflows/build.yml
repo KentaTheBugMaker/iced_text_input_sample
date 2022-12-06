@@ -1,8 +1,8 @@
 name: Build and Make release
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - "master"
 env:
   CARGO_TERM_COLOR: always
 jobs:
@@ -14,8 +14,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
         with:
-          tag_name: ${{github.ref}}
-          release: Relese ${{github.ref}}
+          tag_name: v${{github.run_number}}
+          release: Relese ${{github.sha}}
           draft: false
           prerelease: false
       - run: echo '${{steps.init_page.outputs.upload_url}}' > release_upload_url.txt
@@ -97,7 +97,7 @@ jobs:
   publish_binaries:
     name: Publish binaries.
     runs-on: ubuntu-latest
-    needs: [build_windows, build_linux, build_macos]
+    needs: [build_windows, build_linux, build_macos, init_page]
     steps:
       - name: load upload release_upload_url.txt
         uses: actions/donwload-artifact@v2
