@@ -81,19 +81,15 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@master
-      - name: extract hash from Cargo.lock
-        run: grep "branch=master\?#[a-f0-9]*" Cargo.lock > iced_hash.txt
-      - name: upload iced hash
-        uses: actions/upload-artifact@v2
+      - name: chmod
+        run: chmod +x .github/extract_hash.sh
+      - name: extract hash
+        run: .github/extract_hash.sh
+      - name: upload hash
+        uses: actions/upload-artifact@v3
         with:
-          name: iced_hash.txt
-          path: iced_hash.txt
-      - name: reduce to one line
-        run: sed '1!d' iced_hash.txt > tmp0.txt
-      - name: remove non hash characters
-        run: sed 's/branch=master?#//g' > tmp1.txt
-      - name: print hash
-        run: cat tmp1.txt
+          name: iced_hash
+          path: tmp1.txt
       - name: set hash
         run: echo "hash=$(cat tmp1.txt)" >> $GITHUB_ENV
       - name: accept binary from windows builder
@@ -120,7 +116,7 @@ jobs:
           files: |
             sample_macos
             sample.exe
-            sample_ubuntu_2204_amd64.deb 
-            sample_linux_amd64
+            sample-linux-x64/sample_ubuntu_2204_amd64.deb 
+            sample-linux-x64/sample_linux_amd64
       - name: print uploaded files
         run: echo '${{steps.release_binary.outputs.asset}}'
