@@ -897,7 +897,7 @@ checksum = "dfa686283ad6dd069f105e5ab091b04c62850d3e4cf5d67debad1933f55023df"
 [[package]]
 name = "iced"
 version = "0.5.2"
-source = "git+https://github.com/t18b219k/iced.git?branch=master#c20cfce6bbe8af026c9904fd31f50c032e918854"
+source = "git+https://github.com/t18b219k/iced.git?branch=master#3ae7411536eeb48b0f7460ada69c3b8b9cccfbae"
 dependencies = [
  "iced_core",
  "iced_futures",
@@ -911,7 +911,7 @@ dependencies = [
 [[package]]
 name = "iced_core"
 version = "0.6.1"
-source = "git+https://github.com/t18b219k/iced.git?branch=master#c20cfce6bbe8af026c9904fd31f50c032e918854"
+source = "git+https://github.com/t18b219k/iced.git?branch=master#3ae7411536eeb48b0f7460ada69c3b8b9cccfbae"
 dependencies = [
  "bitflags",
  "palette",
@@ -921,7 +921,7 @@ dependencies = [
 [[package]]
 name = "iced_futures"
 version = "0.5.1"
-source = "git+https://github.com/t18b219k/iced.git?branch=master#c20cfce6bbe8af026c9904fd31f50c032e918854"
+source = "git+https://github.com/t18b219k/iced.git?branch=master#3ae7411536eeb48b0f7460ada69c3b8b9cccfbae"
 dependencies = [
  "futures",
  "log",
@@ -932,7 +932,7 @@ dependencies = [
 [[package]]
 name = "iced_graphics"
 version = "0.4.0"
-source = "git+https://github.com/t18b219k/iced.git?branch=master#c20cfce6bbe8af026c9904fd31f50c032e918854"
+source = "git+https://github.com/t18b219k/iced.git?branch=master#3ae7411536eeb48b0f7460ada69c3b8b9cccfbae"
 dependencies = [
  "bitflags",
  "bytemuck",
@@ -947,7 +947,7 @@ dependencies = [
 [[package]]
 name = "iced_native"
 version = "0.6.1"
-source = "git+https://github.com/t18b219k/iced.git?branch=master#c20cfce6bbe8af026c9904fd31f50c032e918854"
+source = "git+https://github.com/t18b219k/iced.git?branch=master#3ae7411536eeb48b0f7460ada69c3b8b9cccfbae"
 dependencies = [
  "iced_core",
  "iced_futures",
@@ -960,7 +960,7 @@ dependencies = [
 [[package]]
 name = "iced_style"
 version = "0.5.0"
-source = "git+https://github.com/t18b219k/iced.git?branch=master#c20cfce6bbe8af026c9904fd31f50c032e918854"
+source = "git+https://github.com/t18b219k/iced.git?branch=master#3ae7411536eeb48b0f7460ada69c3b8b9cccfbae"
 dependencies = [
  "iced_core",
  "once_cell",
@@ -978,7 +978,7 @@ dependencies = [
 [[package]]
 name = "iced_wgpu"
 version = "0.6.1"
-source = "git+https://github.com/t18b219k/iced.git?branch=master#c20cfce6bbe8af026c9904fd31f50c032e918854"
+source = "git+https://github.com/t18b219k/iced.git?branch=master#3ae7411536eeb48b0f7460ada69c3b8b9cccfbae"
 dependencies = [
  "bitflags",
  "bytemuck",
@@ -998,7 +998,7 @@ dependencies = [
 [[package]]
 name = "iced_winit"
 version = "0.5.1"
-source = "git+https://github.com/t18b219k/iced.git?branch=master#c20cfce6bbe8af026c9904fd31f50c032e918854"
+source = "git+https://github.com/t18b219k/iced.git?branch=master#3ae7411536eeb48b0f7460ada69c3b8b9cccfbae"
 dependencies = [
  "iced_futures",
  "iced_graphics",
@@ -1456,7 +1456,7 @@ checksum = "7d17b78036a60663b797adeaee46f5c9dfebb86948d1255007a1d6be0271ff99"
 dependencies = [
  "instant",
  "lock_api",
- "parking_lot_core 0.8.5",
+ "parking_lot_core 0.8.6",
 ]
 
 [[package]]
@@ -1471,9 +1471,9 @@ dependencies = [
 
 [[package]]
 name = "parking_lot_core"
-version = "0.8.5"
+version = "0.8.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d76e8e1493bcac0d2766c42737f34458f1c8c50c0d23bcb24ea953affb273216"
+checksum = "60a2cfe6f0ad2bfc16aefa463b497d5c7a5ecd44a23efa72aa342d90177356dc"
 dependencies = [
  "cfg-if",
  "instant",
@@ -1681,11 +1681,10 @@ dependencies = [
 
 [[package]]
 name = "rayon"
-version = "1.6.0"
+version = "1.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1e060280438193c554f654141c9ea9417886713b7acd75974c85b18a69a88e0b"
+checksum = "6db3a213adf02b3bcfd2d3846bb41cb22857d131789e01df434fb7e7bc0759b7"
 dependencies = [
- "crossbeam-deque",
  "either",
  "rayon-core",
 ]
@@ -1758,15 +1757,15 @@ dependencies = [
 
 [[package]]
 name = "serde"
-version = "1.0.149"
+version = "1.0.150"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "256b9932320c590e707b94576e3cc1f7c9024d0ee6612dfbcf1cb106cbe8e055"
+checksum = "e326c9ec8042f1b5da33252c8a37e9ffbd2c9bef0155215b6e6c80c790e05f91"
 
 [[package]]
 name = "serde_derive"
-version = "1.0.149"
+version = "1.0.150"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b4eae9b04cbffdfd550eb462ed33bc6a1b68c935127d008b27444d08380f94e4"
+checksum = "42a3df25b0713732468deadad63ab9da1f1fd75a48a15024b50363f128db627e"
 dependencies = [
  "proc-macro2",
  "quote",
