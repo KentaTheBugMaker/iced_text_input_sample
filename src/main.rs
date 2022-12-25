@@ -103,7 +103,7 @@ impl iced::Application for TextInputSample {
                 .into(),
             ]))
             .push(row(vec![
-                Text::new("Password buffer").into(),
+                Text::new("Password buffer:").into(),
                 Text::new(&self.password_buffer).into(),
             ]));
 
