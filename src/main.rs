@@ -8,7 +8,6 @@ use iced::{Application, Command, Length, Settings, Theme};
 
 fn main() -> Result<(), iced::Error> {
     TextInputSample::run(Settings {
-        default_font: Some(include_bytes!("../font/NotoSansCJKjp-Regular.otf")),
         exit_on_close_request: true,
         ..Default::default()
     })
@@ -76,31 +75,22 @@ impl iced::Application for TextInputSample {
         let content = Column::new()
             .push(row(vec![
                 Text::new("TextInput 1").into(),
-                TextInput::new(
-                    "please input some text here",
-                    &self.text_buffers[0],
-                    Message::Input1Changed,
-                )
-                .into(),
+                TextInput::new("please input some text here", &self.text_buffers[0])
+                    .on_input(Message::Input1Changed)
+                    .into(),
             ]))
             .push(row(vec![
                 Text::new("TextInput 2").into(),
-                TextInput::new(
-                    "please input some text here",
-                    &self.text_buffers[1],
-                    Message::Input2Changed,
-                )
-                .into(),
+                TextInput::new("please input some text here", &self.text_buffers[1])
+                    .on_input(Message::Input2Changed)
+                    .into(),
             ]))
             .push(row(vec![
                 Text::new("PassWord Input ").into(),
-                TextInput::new(
-                    "please input some text here",
-                    &self.password_buffer,
-                    Message::PasswordChanged,
-                )
-                .password()
-                .into(),
+                TextInput::new("please input some text here", &self.password_buffer)
+                    .password()
+                    .on_input(Message::PasswordChanged)
+                    .into(),
             ]))
             .push(row(vec![
                 Text::new("Password buffer:").into(),

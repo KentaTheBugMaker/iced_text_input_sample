@@ -2,16 +2,23 @@
 name = "iced_text_input_sample"
 version = "0.1.0"
 edition = "2021"
-description ="A demo app for Iced TextInput."
-license ="MIT"
-authors=["t18b219k"]
+description = "A demo app for Iced TextInput."
+license = "MIT"
+authors = ["KentaTheBugMaker"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-iced={git="https://github.com/t18b219k/iced.git",branch="master"}
-iced_native={git="https://github.com/t18b219k/iced.git",branch="master"}
+iced = { git = "https://github.com/KentaTheBugMaker/iced.git", branch = "ime_adavanced_text" }
 [package.metadata.deb]
 assets = [
-    ["target/release/iced_text_input_sample", "usr/bin/iced-text-input-sample", "755"],
-    ["iced-text-input-sample.desktop", "usr/share/applications/", "644"],
+    [
+        "target/release/iced_text_input_sample",
+        "usr/bin/iced-text-input-sample",
+        "755",
+    ],
+    [
+        "iced-text-input-sample.desktop",
+        "usr/share/applications/",
+        "644",
+    ],
 ]
